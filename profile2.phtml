@@ -1,0 +1,118 @@
+<?php
+
+//if (isset($_POST['save_profile_btn'])) {
+
+  $userdata = include_once("profile2.php");
+
+$newdata = array($_COOKIE["user_name"], $_POST['usr_name'], $_POST['usr_surname'],
+    $_POST['usr_datebirth'], $_POST['usr_descr']);
+
+    foreach ($newdata as $key => $value) {
+      $GLOBALS[$key] = $value;
+    }
+
+$data = $newdata[0];
+$isset = 0;
+while ($isset == 0) {
+  if ($newdata[1] != null) { $userdata[$data]['name'] = $GLOBALS[1]; }
+  if ($newdata[2] != null) { $userdata[$data]['surname'] = $GLOBALS[2]; }
+  if ($newdata[3] != null) { $userdata[$data]['birth'] = $GLOBALS[3]; }
+  if ($newdata[4] != null) { $userdata[$data]['description'] = $GLOBALS[4]; }
+$isset = 1;
+
+}
+//}
+
+
+
+//else {
+//array_push($userdata, $data);
+//}
+//}
+
+
+if (isset($_POST['save_profile_btn'])) {
+
+    $uploaddir = 'uploads/';
+    $uploadfile = $uploaddir . basename($_FILES['usr_photo']['name']);
+
+    $GLOBALS["check_profile_form"] = 0;
+
+    if ($_FILES['usr_photo']["size"] != 0) {
+        if ($_FILES['usr_photo']["size"] < 50000 &&
+            ($_FILES['usr_photo']["type"] == "image/jpeg" || $_FILES['usr_photo']["type"] == "image/jpg")
+        ) {
+            move_uploaded_file($_FILES['usr_photo']['tmp_name'], $uploadfile);
+        } else
+            $GLOBALS["check_profile_form"] = 1;
+    }
+  }
+
+
+
+
+
+
+?>
+
+<div>
+  <p><?php echo "{$userdata[$data]['name']} {$userdata[$data]['surname']}";?></p>
+<p>BIRTH <?php echo $userdata[$data]['birth']?></p>
+
+
+</div
+
+<div class="container">
+    <form method="POST" enctype="multipart/form-data"
+          action="index.php?action=profile">
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xs-12 col-md-3 text-center">
+                <img src="<?php if (isset($GLOBALS["current"]) && $GLOBALS['current'][5] != NULL
+                    && file_exists($GLOBALS['current'][5])
+                ) echo $GLOBALS["current"][5];
+                else echo 'https://placeholdit.imgix.net/~text?txtsize=33&txt=200%C3%97200&w=200&h=200'; ?>"
+                     style="max-width: 200px;"/>
+                <input type="file" class="form-control" style="margin-top: 4px;" name="usr_photo">
+            </div>
+
+            <div class="col-xs-12 col-md-3">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="usr_name"
+                pattern="^[A-Za-z]{1,25}$" required
+                                       value="<?php echo $userdata[$data]['name']; ?>">
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-3">
+                                <label for="surname">Surname:</label>
+                                <input type="text" class="form-control" id="surname" name="usr_surname"
+                                       pattern="^[A-Za-z]{1,25}$" required
+                                       value="<?php echo $userdata[$data]['surname']; ?>">
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                                <label for="datebirth">Date of birth:</label>
+                                <input type="date" class="form-control" id="datebirth" name="usr_datebirth"
+                                       pattern="^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$"
+                                       max="2001-01-01" min="1900-12-31" required
+                                        value="<?php echo $userdata[$data]['birth']; ?>">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 col-md-offset-3 description">
+                                <label for="descr">Description:</label><br>
+                                <textarea id="descr" class="form-control" rows="6" name="usr_descr"
+                                          required minlength="50"
+                                          maxlength="250"<?php echo $userdata[$data]['description']; ?>"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-default" name="save_profile_btn"
+                                style="margin-top: 20px; margin-bottom: 10px;">Save
+
+                            <div class="alert alert-danger" style="margin-top: 15px; display:
+                            <?php if ($GLOBALS["check_profile_form"] == 0) { ?>none; <?php } else { ?> block; <?php } ?>">
+                                <strong>Danger!</strong> Mne bol'no..
+                            </div>
+
+                            </form>
+                        </div>

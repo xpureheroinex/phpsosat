@@ -1,0 +1,42 @@
+
+
+<form method="POST"
+      action="index.php?action=cart">
+
+    <table class="table" id="cart_table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Price</th>
+            <th>Sum</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $total_sum = 0; ?>
+        <?php foreach ($_SESSION as $item => $amount) : ?>
+                <tr>
+                    <td><?php echo $item; ?></td>
+                    <td><?php echo $amount; ?></td>
+                    <td><?php echo $products[$item] ?></td>
+                    <td><?php $total_sum += intval($amount) * intval($products[$item]);
+                    echo $amount * $products[$item] ?></td>
+                                        <td>
+                                            <button type="submit" name="<?php echo $item ?>" class="btn btn-default btn-sm"
+                                                    style="margin-top: 3px;">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                            <?php endforeach; ?>
+                            <tr class="active" style="font-weight:bold;">
+                                <td colspan="3">Total:</td>
+                                <td colspan="2"><?php echo $total_sum; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" name="pay_btn" class="btn btn-success" style="margin-right: 10px;">Pay</button>
+                        <button type="submit" name="clear_btn" class="btn btn-default">Clear</button>
+
+                    </form>

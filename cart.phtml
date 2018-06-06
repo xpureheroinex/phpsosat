@@ -1,0 +1,62 @@
+<?php
+
+if (isset($_POST['clear'])) {
+    session_unset();
+    header('Location: index.php');
+}
+if (isset($_POST['pay'])) {
+  if (count($_SESSION) == 0) {
+    session_unset();
+    header('Location: index.php');
+  }
+  else {
+    session_unset();
+    header('Location: index.php?action=pay');
+  }
+}
+foreach ($_SESSION as $item => $amount)
+    if (isset($_POST[$item])) {
+        unset($_SESSION[$item]);
+        header('Refresh:0');
+    }
+?>
+
+<form method="POST"
+      action="index.php?action=cart">
+
+    <table class="table" id="cart_table">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Price (uah)</th>
+            <th>Sum (uah)</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $total_sum = 0; ?>
+        <?php $products = include("products.php"); ?>
+        <?php foreach ($_SESSION as $item => $amount) : ?>
+                <tr>
+                    <td><?php echo $item; ?></td>
+                    <td><?php echo $amount; ?></td>
+                    <td><?php echo $products[$item] ?></td>
+                    <td><?php $total_sum += (int)$amount * (int)$products[$item];
+                    echo number_format($amount * $products[$item],5) ?></td>
+                                        <td>
+                                            <button type="submit" name="<?php echo $item ?>" class="btn btn-default btn-sm"
+                                                    style="margin-top: 3px;"> Delete item</button>
+                                        </td>
+                                    </tr>
+                            <?php endforeach; ?>
+                            <tr class="active" style="font-weight:bold;">
+                                <td colspan="3">Total:</td>
+                                <td colspan="2"><?php  echo number_format($total_sum, 5); ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" name="pay" style="margin-right: 10px;">Pay</button>
+                        <button type="submit" name="clear" >Clear</button>
+
+                    </form>

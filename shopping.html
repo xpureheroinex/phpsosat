@@ -1,0 +1,38 @@
+<!--<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-12 text-left">
+            <div class="container"> -->
+            
+            <body>
+                <h3>Products to buy in our shop</h3>
+
+                <form method="POST" action="index.php?action=shopping">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Amount</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php foreach ($products as $item => $price) : ?>
+                            <tr>
+                                <td><?php echo $item; ?></td>
+                                <td><input name="amount[<?php echo $item ?>]" type="number" min="0" value="0" max="999"></td>
+                                <td><?php echo $price; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-success" name="submit_button">Buy!</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>

@@ -1,0 +1,28 @@
+<body>
+  <h3>Products available</h3>
+
+    <form method="POST" action="index.php?action=order">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Price (uah)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $products = include("products.php"); ?>
+          <?php foreach ($products as $item => $price) : ?>
+            <tr>
+              <td><?php echo $item; ?></td>
+              <td><input name="amount[<?php echo $item ?>]" type="number" min="0" value="0" max="100"></td>
+              <td><?php echo $price; ?></td>
+            </tr>
+          <?php endforeach; ?>
+
+        </tbody>
+      </table>
+      <button type="submit" name="submit_button">Buy!</button>
+    </form>
+</body>

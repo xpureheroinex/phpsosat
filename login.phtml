@@ -1,0 +1,49 @@
+<?php
+$check_login_form = 0;
+
+if (isset($_POST['login_button'])) {
+    $credential = require_once("credential.php");
+
+    foreach ($credential as $userName => $password) {
+
+        if (isset($_POST['userName']) && $_POST['userName'] == $userName
+            && isset($_POST['password']) && $_POST['password'] == $password) {
+
+             $check_temp = 0;
+            setcookie("user_name", $userName, time() + 50000, '/');
+            session_start($userName);
+            header( 'Refresh: 0;');
+            break;
+        }
+        else {
+            $check_temp = 1;
+        }
+    }
+
+    if ($check_temp == 1)
+         $check_login_form = 1;
+}
+?>
+
+<div class="login">
+    <form method="POST" action="index.php?action=homepage">
+
+        <div class="form-group">
+            <label for="usr">Name:</label>
+            <input type="text" class="form-control" id="usr" name="userName" maxlength="25">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd" name="password" maxlength="25">
+                    </div>
+                    <button type="submit" name="login_button" class="btn
+                <?php if ($check_login_form== 0) { ?>btn-default <?php } else { ?> btn-danger <?php } ?>
+                btn-sm">LogIn
+                    </button>
+                    <div class="alert alert-danger" style="margin-top: 15px; display:
+                    <?php if ($check_login_form== 0) { ?>none; <?php } else { ?> block; <?php } ?>">
+                        <strong>Error: </strong>Wrong login or password
+                    </div>
+
+                </form>
+            </div>

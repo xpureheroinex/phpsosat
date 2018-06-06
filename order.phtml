@@ -1,0 +1,14 @@
+            <div>
+                <h3>Products in your cart</h3>
+                <?php
+                if (count($_SESSION) == 0)
+                {
+                    require_once("redirect.phtml");
+                }
+                else
+                {
+                    require_once("cart.phtml");
+                }
+                ?>
+            </div>
+      

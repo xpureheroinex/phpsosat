@@ -1,0 +1,5 @@
+Milk, 22.60;
+Bread, 9.85;
+Wine, 98.50;
+Apples, 16.70;
+Bananas, 31.15
